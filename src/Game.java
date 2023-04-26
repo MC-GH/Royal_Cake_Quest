@@ -1,12 +1,410 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
-public class Game {
+/**
+ *  This class is the main class of the "World of Zuul" application.
+ *  "World of Zuul" is a very simple, text based adventure game.  Users
+ *  can walk around some scenery. That's all. It should really be extended
+ *  to make it more interesting!
+ *
+ *  To play this game, create an instance of this class and call the "play"
+ *  method.
+ *
+ *  This main class creates and initialises all the others: it creates all
+ *  rooms, creates the parser and starts the game.  It also evaluates and
+ *  executes the commands that the parser returns.
+ *
+ * @author  Michael Kölling and David J. Barnes
+ * @version 2011.07.31
+ */
+
+public class Game
+{
+    private Parser parser;
+    private Player player;
+
+    /**
+     * Create the game and initialise its internal map.
+     */
+    public Game() {
+        parser = new Parser();
+        player = new Player("Michaël");
+        Room startRoom = createRooms();
+        //Initialize startroom for Player, so when going back through the Stack it does not end at null
+        player.setStartRoom(startRoom);
+    }
+
+    /**
+     * Create all the rooms and link their exits together.
+     */
+    private Room createRooms()
+    {
+        Room outside, theater, pub, lab, office, cellar;
+
+        // create the rooms
+        outside = new Room("outside the main entrance of the university");
+        theater = new Room("in a lecture theater");
+        pub = new Room("in the campus pub");
+        cellar = new Room("In the cellar");
+        lab = new Room("in a computing lab");
+        office = new Room("in the computing admin office");
+
+        // initialise room exits
+        outside.setExit("east", theater);
+//        outside.addItem(new Item("book","A book of recipes", 0.5));
+//        outside.addItem(new Item("candle","An unused candle", 0.1));
+//        outside.addItem(new Item("hammer","An old hammer", 1.2));
+//        outside.addItem(new Item("cookie", "a magic cookie", 0.1));
+        outside.setExit("south", lab);
+        outside.setExit("west", pub);
+        theater.setExit("west", outside);
+        pub.setExit("east", outside);
+        pub.setExit("down", cellar);
+        cellar.setExit("up", pub);
+        lab.setExit("north", outside);
+        lab.setExit("east", office);
+        office.setExit("west", lab);
+
+        //Random toewijzing van items aan kamers:
+        //ArrayList maken items, alle Items erin
+        ArrayList<Item> items = new ArrayList<>();
+        items.add( new Item("book", "A book of recipes", 0.5));
+        items.add( new Item("candle","An unused candle", 0.1));
+        items.add( new Item("book", "A book of recipes", 0.5));
+        items.add( new Item("cookie", "A magic cookie", 0.1));
+        ArrayList<Room> rooms = new ArrayList<>();
+        rooms.addAll(Arrays.asList(outside, theater, pub, cellar, lab, office));
+        Random r = new Random();
+
+        //For each item, assign it to a Random Room
+        for(int i = 0; i < items.size(); i++) {
+            Room randomRoom = rooms.get(r.nextInt(rooms.size()));
+            randomRoom.addItem(items.get(i));
+            System.out.println("Item " + items.get(i).getName() + " has been added  " + randomRoom.getShortDescription());
+        }
+
+        //Character toevoegen aan een kamer:
+        outside.addItem(new Item("key", "A key to the prisoner's cell", 0.2));
+        outside.setCharacter(new Character("Lancelot", new Item("magic egg", "A magic egg used to create very special desserts", 0.1), "key"));
+        outside.setCharacterIntroduction("Hello, my name is " + outside.getCharacterName() +
+                "\nI have been thrown in this cell for stealing some food from the kitchen." +
+                "\nIf you can bring me the key to my cell, I will reward you with a magic egg." +
+                "\nTalk to me again when you have found it.");
+
+        outside.setCharacterFollowUp("Have you found the key to my cell yet? Come back to me when you have found it.");
+        outside.setCharacterFinalMessage("You unlock the cell door of the prisoner. Before he leaves he turns to you and says:" +
+                "\n\"Thanks! Have this magic egg as a reward!\"" +
+                "\nAs you place the magic egg in your inventory, you see the prisoner quietly sneaking out of the room.");
 
 
-    //Main method to start the game
+        //Test covered item functionality
+        Item coveringItem = new Item("rubble", "some rubble, there seems to be something underneath", 2.0);
+        Item coveredItem = new Item("letter", "an old dusty letter", 0.5);
+        coveringItem.setCoveredItem(coveredItem);
+        outside.addItem(coveringItem);
+        outside.addItem(new Item("sugar","a small bag of sugar", 1.0));
+        outside.addItem(new Item("flour", "a small bag of flour", 2.0));
+        outside.addItem(new Item("butter", "a stick of butter", 2.0));
+        //In de keuken een recept plaatsen met de instructies op
+
+
+        return outside;
+    }
+
+    /**
+     *  Main play routine.  Loops until end of play.
+     */
+    public void play()
+    {
+        printWelcome();
+
+        // Enter the main command loop.  Here we repeatedly read commands and
+        // execute them until the game is over.
+
+        boolean finished = false;
+        while (! finished) {
+            Command command = parser.getCommand();
+            finished = processCommand(command);
+            if(player.isDead()) {
+                printDead();
+                finished = true;
+            }
+            if(player.getItem("cake") != null) {
+                printVictory();
+                finished = true;
+            }
+
+        }
+        System.out.println("Thank you for playing.  Good bye.");
+    }
+
+    /**
+     * Print out the opening message for the player.
+     */
+    private void printWelcome()
+    {
+        System.out.println();
+        System.out.println("Welcome to the World of Zuul!");
+        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Type " + CommandWord.HELP.toString() + " if you need help.");
+        System.out.println();
+        printLocationInfo();
+    }
+
+    private void printLocationInfo() {
+        System.out.println(player.getCurrentRoom().getLongDescription());
+        System.out.println();
+    }
+
+    public void printVictory() {
+        System.out.println("You managed to bake the cake and save the party. Congratulations! You have won the game.");
+    }
+
+    private void printDead() {
+        System.out.println("Oh no, you did not manage to bake the dessert on time. The party has to be cancelled!");
+    }
+
+    /**
+     * Given a command, process (that is: execute) the command.
+     * @param command The command to be processed.
+     * @return true If the command ends the game, false otherwise.
+     */
+    private boolean processCommand(Command command)
+    {
+        boolean wantToQuit = false;
+
+        if(command.isUnknown()) {
+            System.out.println("I don't know what you mean...");
+            return false;
+        }
+
+        CommandWord commandWord = command.getCommandWord();
+        switch (commandWord) {
+            case UNKNOWN:
+                System.out.println("I don't know what you mean..");
+                break;
+            case HELP:
+                printHelp();
+                break;
+            case GO:
+                goRoom(command);//Methode van Player object
+                break;
+            case LOOK:
+                look(); //Methode van Player object
+                break;
+            case INVENTORY:
+                inventory();//Methode van Player object
+                break;
+            case BACK:
+                goBack(command);//Methode van Player object
+                break;
+            case TAKE:
+                take(command);//Methode van Player object
+                break;
+            case DROP:
+                drop(command);//Methode van Player object
+                break;
+            case TALK:
+                talk();
+                break;
+            case EAT:
+                eat(command);//Methode van Player object
+                break;
+            case COOK:
+                cook();
+                break;
+            case QUIT:
+                wantToQuit = quit(command);
+        }
+        return wantToQuit;
+    }
+
+    // implementations of user commands:
+
+    /**
+     * Print out some help information.
+     * Here we print some stupid, cryptic message and a list of the
+     * command words.
+     */
+    private void printHelp()
+    {
+        System.out.println("Player " + player.getName() + " is lost and alone, and wanders");
+        System.out.println("around at the university.");
+        System.out.println();
+        System.out.println("Your command words are:");
+        parser.getCommandList();
+    }
+
+    /**
+     * Try to go in one direction. If there is an exit, enter
+     * the new room, otherwise print an error message.
+     */
+    private void goRoom(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Go where?");
+            return;
+        }
+
+        String direction = command.getSecondWord();
+
+        // Try to leave current room.
+        Room nextRoom = player.getCurrentRoom().getExit(direction);
+
+        if (nextRoom == null) {
+            System.out.println("There is no door!");
+        }
+        else {
+
+            enterRoom(nextRoom);
+        }
+    }
+
+    /**
+     * Voert de opgegeven ruimte in en drukt de beschrijving af
+     * @param nextRoom
+     */
+    private void enterRoom(Room nextRoom) {
+        player.enterRoom(nextRoom);
+        printLocationInfo();
+    }
+
+    /**
+     * Ga terug naar de vorige ruimte.
+     */
+
+    private void goBack(Command command) {
+        player.goBack(command);
+        printLocationInfo();
+    }
+
+    /**
+     * Try to take an item from the current room. If the item is there,
+     * pick it up, if not print an error message.
+     */
+    private void take(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to take...
+            System.out.println("What do you want to take?");
+            return;
+        }
+
+        String itemName = command.getSecondWord();
+        Item item = player.pickUpItem(itemName);
+
+        if(item == null) {
+            System.out.println("Can't pick up the item: " + itemName);
+        } else {
+            System.out.println("Picked up " + item.getDescription());
+            System.out.println(player.getInventoryDescription());
+        }
+    }
+
+    /**
+     * Drops an item into the current room. If the player carries the item
+     * drop it, if not print an error message.
+     */
+    private void drop(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("What do you want to drop?");
+            return;
+        }
+
+        String itemName = command.getSecondWord();
+        Item item = player.dropItem(itemName);
+
+        if(item == null) {
+            System.out.println("You don't carry the item: " + itemName);
+        } else {
+            //The item exists in the inventory
+            System.out.print("Dropped ");
+            //if it concerns a covered item, we print the description of the revealed item
+            if(item.isCovered()) {
+                System.out.println(item.getCoveredItem().getDescription());
+            } else {
+                System.out.println(item.getDescription());
+            }
+//            System.out.println("Dropped " + item.getDescription());
+            System.out.println(player.getInventoryDescription());
+        }
+    }
+
+    /**
+     * "Quit" was entered. Check the rest of the command to see
+     * whether we really quit the game.
+     * @return true, if this command quits the game, false otherwise.
+     */
+    private boolean quit(Command command)
+    {
+        if(command.hasSecondWord()) {
+            System.out.println("Quit what?");
+            return false;
+        }
+        else {
+            return true;  // signal that we want to quit
+        }
+    }
+
+    private void look() {
+        System.out.println(player.getCurrentRoom().getLongDescription());
+    }
+
+    private void talk() {
+        String itemToFind = player.getCurrentRoom().getItemRequested();
+        if(player.getItem(itemToFind) != null && player.getCurrentRoom().characterVisited()) {
+//            System.out.println("Thanks! Have this magic egg! You place the item in your inventory.");
+//            System.out.println("You see the prisoner quietly sneaking out the room.");
+            //By calling this method: the CharacterItem is put in the Items collection of the room.
+            //Store the key (String) of the item returned by the Character
+            String rewardItem = player.getCurrentRoom().getCharacterItem();
+            //Use the pickup method to place the item in the inventory of the player
+            player.pickUpItem(rewardItem);
+        } else {
+            //Het gewenste item is niet in het bezit, dus standaard dialoog wordt uitegevoerd
+            System.out.println(player.getCurrentRoom().talk());
+        }
+    }
+
+    private void inventory() {
+        System.out.println(player.getInventoryDescription());
+    }
+
+    /**
+     * Try to take an item from the current room. If the item is there,
+     * pick it up, if not print an error message.
+     */
+    private void eat(Command command)
+    {
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to eat...
+            System.out.println("What do you want to eat?");
+            return;
+        }
+        String itemName = command.getSecondWord();
+        Item item = player.eat(itemName);
+        if(item == null) {
+            System.out.println("Could not eat " + itemName);
+        }
+        else {
+            System.out.println("Ate " + item.getDescription());
+            //Currently this does not remove the item from the Items HashMap
+        }
+    }
+
+    public void cook() {
+        player.cook();
+        //If dessert is successfull, add it to the Items of the player, ending the game.
+    }
+
     public static void main(String[] args) {
         Game game = new Game();
         game.play();
     }
-
 }
+
 
