@@ -7,6 +7,8 @@ public enum CommandWord {
     DROP("drop"),
     EAT("eat"),
     TALK("talk"),
+    LOAD("load"),
+    FIRE("fire"),
     COOK("cook"),
     QUIT("quit"),
     HELP("help"),

@@ -146,18 +146,22 @@ public class Game
     {
         System.out.println();
         System.out.println("==========================================================================");
-        System.out.println("==========================================================================");
         System.out.println("==================== WELCOME TO THE ROYAL CAKE QUEST! ====================");
-        System.out.println("==========================================================================");
         System.out.println("==========================================================================");
         System.out.println("======= The King is throwing a feast tonight for important guests. =======");
         System.out.println("=== As the assistant of the cook, you are in charge of the Royal Cake. ===");
         System.out.println("==== Unfortunately, the ingredients are spread throughout the castle. ====");
         System.out.println("===== You need to find the ingredients and assemble (COOK) the cake. =====");
         System.out.println("================ Hurry up, the guests are getting hungry! ================");
-        System.out.println("=== TIP: start by searching for a recipe so you know what to look for. ===");
-
         System.out.println("==================== Type " + CommandWord.HELP.toString() + " if you need some help. ====================");
+        System.out.println("==========================================================================");
+        System.out.println("=== TIP: start by searching for a recipe so you know what to look for. ===");
+        System.out.println("TIP2: you are carrying a magic lamp which can store your current location.");
+        System.out.println("============ Use command LOAD to store your current location. ============");
+        System.out.println("==== Use command FIRE to teleport to your saved location. Use wisely! ====");
+        System.out.println("==========================================================================");
+
+
         System.out.println();
         printLocationInfo();
     }
@@ -217,6 +221,12 @@ public class Game
                 break;
             case TALK:
                 talk();
+                break;
+            case LOAD:
+                charge();
+                break;
+            case FIRE:
+                fire();
                 break;
             case EAT:
                 eat(command);//Methode van Player object
@@ -409,6 +419,23 @@ public class Game
     public void cook() {
         player.cook();
         //If dessert is successfull, add it to the Items of the player, ending the game.
+    }
+
+    private void charge()
+    {
+        player.chargeLamp();
+        System.out.println("Beamer charged.");
+    }
+
+    private void fire()
+    {
+        if(player.fireLamp()) {
+            System.out.println("Beamer fired.");
+            System.out.println(player.getLongDescription());
+        }
+        else {
+            System.out.println("Beamer not charged.");
+        }
     }
 
     public static void main(String[] args) {

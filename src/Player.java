@@ -9,7 +9,9 @@ public class Player {
     private Items items = new Items();
     private double maxWeight;
     private int moves = 0;
-    private int maxMoves = 5;
+    private int maxMoves = 20;
+
+    private Room lampTarget;
 
     public Player(String name) {
         this.name = name;
@@ -188,18 +190,37 @@ public class Player {
 //     * items the player carries.
 //     * @return A description of the room and items held.
 //     */
-//    public String getLongDescription()
-//    {
-//        String returnString = currentRoom.getLongDescription();
-//        returnString += "\n" + getInventoryDescription();
-//        return returnString;
-//    }
+    public String getLongDescription()
+    {
+        String returnString = currentRoom.getLongDescription();
+        returnString += "\n" + getInventoryDescription();
+        return returnString;
+    }
 
     public boolean isDead()
     {
         return moves > maxMoves;
     }
 
+    /**
+     * Charger the beamer to the current room
+     */
+    public void chargeLamp()
+    {
+        lampTarget = currentRoom;
+    }
 
+    /**
+     * Fires the beamer
+     */
+    //Adapt so that the fire command here also adds the room to the stack
+    public boolean fireLamp()
+    {
+        if(lampTarget != null) {
+            enterRoom(lampTarget);
+            return true;
+        }
+        return false;
+    }
 
 }
