@@ -145,9 +145,19 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Type " + CommandWord.HELP.toString() + " if you need help.");
+        System.out.println("==========================================================================");
+        System.out.println("==========================================================================");
+        System.out.println("==================== WELCOME TO THE ROYAL CAKE QUEST! ====================");
+        System.out.println("==========================================================================");
+        System.out.println("==========================================================================");
+        System.out.println("======= The King is throwing a feast tonight for important guests. =======");
+        System.out.println("=== As the assistant of the cook, you are in charge of the Royal Cake. ===");
+        System.out.println("==== Unfortunately, the ingredients are spread throughout the castle. ====");
+        System.out.println("===== You need to find the ingredients and assemble (COOK) the cake. =====");
+        System.out.println("================ Hurry up, the guests are getting hungry! ================");
+        System.out.println("=== TIP: start by searching for a recipe so you know what to look for. ===");
+
+        System.out.println("==================== Type " + CommandWord.HELP.toString() + " if you need some help. ====================");
         System.out.println();
         printLocationInfo();
     }
