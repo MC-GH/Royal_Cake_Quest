@@ -44,12 +44,12 @@ public class Parser
 
         inputLine = reader.nextLine();
 
-        // Find up to two words on the line.
+        // Find up to two words on the line. Store in lowercase, so if the player types in capital letters, it still gets recognized.
         Scanner tokenizer = new Scanner(inputLine);
         if(tokenizer.hasNext()) {
-            word1 = tokenizer.next();      // get first word
+            word1 = tokenizer.next().toLowerCase();
             if(tokenizer.hasNext()) {
-                word2 = tokenizer.next();      // get second word
+                word2 = tokenizer.next().toLowerCase();
                 // note: we just ignore the rest of the input line.
             }
         }

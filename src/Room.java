@@ -134,20 +134,8 @@ public class Room {
         this.character = c;
     }
 
-    public void setCharacterIntroduction(String introductionString) {
-        character.setIntroductionString(introductionString);
-    }
-
-    public void setCharacterFollowUp(String followUpString) {
-        character.setFollowUpString(followUpString);
-    }
-
-    public void setCharacterFinalMessage(String finalString) {
-        character.setFinalString(finalString);
-    }
-
-    public String getCharacterName() {
-        return character.getName();
+    public Character getCharacter() {
+        return this.character;
     }
 
     public boolean characterVisited() {
@@ -160,7 +148,7 @@ public class Room {
         //The character.getItem() method can only be called once. Once called, the Item the character is holding is set to null
         Item characterItem = character.getItem();
         items.put(characterItem.getName(), characterItem);
-        //Clear the character from the room
+        //Clear the character from the room (prisoner escapes)
         character = null;
         return characterItem.getName();
     }

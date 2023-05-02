@@ -69,32 +69,25 @@ public class Game
         weaponsRoom.setExits(knightsHall, null, null, mainHall, null, null);
         knightsHall.setExits(null, null, weaponsRoom, diningHall, null, null);
         diningHall.setExits(null, knightsHall, mainHall, kitchen, null, null);
-
-        // initialise room exits
-        outside.setExit("east", theater);
-//        outside.addItem(new Item("book","A book of recipes", 0.5));
-//        outside.addItem(new Item("candle","An unused candle", 0.1));
-//        outside.addItem(new Item("hammer","An old hammer", 1.2));
-//        outside.addItem(new Item("cookie", "a magic cookie", 0.1));
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
-        theater.setExit("west", outside);
-        pub.setExit("east", outside);
-        pub.setExit("down", cellar);
-        cellar.setExit("up", pub);
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-        office.setExit("west", lab);
+        kitchen.setExits(null, diningHall, kitchenStorage, null, null, null);
+        kitchenStorage.setExits(kitchen, mainHall, null, null, null, cellarStorage);
+        //Upstairs rooms
+        servantsHall.setExits(null, upstairsHall, null, null, null, null);
+        upstairsHall.setExits(null, royalNightHall, null, servantsHall, null, mainHall);
+        royalNightHall.setExits(null, null, null, upstairsHall, null, null);
 
         //Random toewijzing van items aan kamers:
         //ArrayList maken items, alle Items erin
+
+        //Recipe item should be in kitchen
+        //Key to the prison cell should be in the guardHall.
         ArrayList<Item> items = new ArrayList<>();
-        items.add( new Item("book", "A book of recipes", 0.5));
+        items.add( new Item("Book", "A book of recipes", 0.5));
         items.add( new Item("candle","An unused candle", 0.1));
-        items.add( new Item("book", "A book of recipes", 0.5));
         items.add( new Item("cookie", "A magic cookie", 0.1));
         ArrayList<Room> rooms = new ArrayList<>();
-        rooms.addAll(Arrays.asList(outside, theater, pub, cellar, lab, office));
+        //Create new ArrayList from rooms
+        rooms.addAll(Arrays.asList(castleSquare));
         Random r = new Random();
 
         //For each item, assign it to a Random Room
@@ -104,32 +97,36 @@ public class Game
             System.out.println("Item " + items.get(i).getName() + " has been added  " + randomRoom.getShortDescription());
         }
 
-        //Character toevoegen aan een kamer:
-        outside.addItem(new Item("key", "A key to the prisoner's cell", 0.2));
-        outside.setCharacter(new Character("Lancelot", new Item("magic egg", "A magic egg used to create very special desserts", 0.1), "key"));
-        outside.setCharacterIntroduction("Hello, my name is " + outside.getCharacterName() +
+       //Creating a character and setting up the character dialogue.
+        Character prisoner = new Character("Lancelot", new Item("egg", "A magic egg used to create very special desserts", 0.1), "key");
+
+        prisoner.setIntroductionString("Hello, my name is " + prisoner.getName() +
                 "\nI have been thrown in this cell for stealing some food from the kitchen." +
                 "\nIf you can bring me the key to my cell, I will reward you with a magic egg." +
                 "\nTalk to me again when you have found it.");
 
-        outside.setCharacterFollowUp("Have you found the key to my cell yet? Come back to me when you have found it.");
-        outside.setCharacterFinalMessage("You unlock the cell door of the prisoner. Before he leaves he turns to you and says:" +
+        prisoner.setFollowUpString("Have you found the key to my cell yet? Come back to me when you have found it.");
+        prisoner.setFinalString("You unlock the cell door of the prisoner. Before he leaves he turns to you and says:" +
                 "\n\"Thanks! Have this magic egg as a reward!\"" +
                 "\nAs you place the magic egg in your inventory, you see the prisoner quietly sneaking out of the room.");
+        //Assigning the character to a room
+        prison.setCharacter(prisoner);
 
+
+        guardHall.addItem(new Item("key", "A key to the prisoner's cell", 0.2));
 
         //Test covered item functionality
         Item coveringItem = new Item("rubble", "some rubble, there seems to be something underneath", 2.0);
         Item coveredItem = new Item("letter", "an old dusty letter", 0.5);
         coveringItem.setCoveredItem(coveredItem);
-        outside.addItem(coveringItem);
-        outside.addItem(new Item("sugar","a small bag of sugar", 1.0));
-        outside.addItem(new Item("flour", "a small bag of flour", 2.0));
-        outside.addItem(new Item("butter", "a stick of butter", 2.0));
+        castleSquare.addItem(coveringItem);
+        castleSquare.addItem(new Item("sugar","a small bag of sugar", 1.0));
+        castleSquare.addItem(new Item("flour", "a small bag of flour", 2.0));
+        castleSquare.addItem(new Item("butter", "a stick of butter", 2.0));
         //In de keuken een recept plaatsen met de instructies op
 
 
-        return outside;
+        return castleSquare;
     }
 
     /**
@@ -396,9 +393,7 @@ public class Game
 
     private void talk() {
         String itemToFind = player.getCurrentRoom().getItemRequested();
-        if(player.getItem(itemToFind) != null && player.getCurrentRoom().characterVisited()) {
-//            System.out.println("Thanks! Have this magic egg! You place the item in your inventory.");
-//            System.out.println("You see the prisoner quietly sneaking out the room.");
+        if(player.getItem(itemToFind) != null && player.getCurrentRoom().getCharacter().hasBeenVisited()) {
             //By calling this method: the CharacterItem is put in the Items collection of the room.
             //Store the key (String) of the item returned by the Character
             String rewardItem = player.getCurrentRoom().getCharacterItem();
