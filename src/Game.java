@@ -40,11 +40,12 @@ public class Game
      */
     private Room createRooms()
     {
-
+        //Cellar rooms
         Room cellarStorage = new Room("in the old dusty storage room");
         Room chapel = new Room("in the chapel");
         Room prison = new Room("in the prison room");
         Room guardHall = new Room("in the chamber of the guards. This must be where they sleep");
+        //First floor rooms
         Room castleSquare = new Room("outside in the main square of the castle");
         Room mainHall = new Room("in the Main Hall of the castle. This is where the Lord welcomes his guests");
         Room weaponsRoom = new Room("in the armory. Armour and weapons are displayed here");
@@ -52,13 +53,22 @@ public class Game
         Room diningHall = new Room("in the dining Hall. The food will be served here.");
         Room kitchen = new Room("in the kitchen. It smells nice");
         Room kitchenStorage = new Room("in the kitchen storage. There is so many food in here");
+        //Upstairs rooms
         Room servantsHall = new Room("in the servant's Hall. The maids sleep here");
         Room upstairsHall = new Room("in the upstairs Hall. Watch out for the stairs");
         Room royalNightHall = new Room("in the sleeping Hall of the Castle Lord. You better not make a mess here");
 
+        //Cellar rooms
         cellarStorage.setExits(null, chapel, guardHall, null, kitchenStorage,null);
         chapel.setExits(null, null, prison, cellarStorage, null, null);
-
+        prison.setExits(chapel, null, null, guardHall, castleSquare, null);
+        guardHall.setExits(cellarStorage, prison, null, null, null, null);
+        //First floor rooms
+        castleSquare.setExits(mainHall, null, null, null, null, prison);
+        mainHall.setExits(diningHall, weaponsRoom, castleSquare, kitchenStorage, upstairsHall, null);
+        weaponsRoom.setExits(knightsHall, null, null, mainHall, null, null);
+        knightsHall.setExits(null, null, weaponsRoom, diningHall, null, null);
+        diningHall.setExits(null, knightsHall, mainHall, kitchen, null, null);
 
         // initialise room exits
         outside.setExit("east", theater);
