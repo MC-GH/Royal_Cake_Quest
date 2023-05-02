@@ -86,6 +86,13 @@ public class Game
         items.add(new Item("Book", "a book of recipes", 0.5));
         items.add(new Item("Candle","an unused candle", 0.1));
         items.add(new Item("Cookie", "a magic cookie", 0.1));
+        items.add(new Item("Sugar","a small bag of sugar", 1.0));
+        items.add(new Item("Flour", "a small bag of flour", 2.0));
+        items.add(new Item("Butter", "a stick of butter", 2.0));
+        //
+        //
+        //
+
 
         ArrayList<Room> rooms = new ArrayList<>();
         //Create new ArrayList from rooms
@@ -114,17 +121,12 @@ public class Game
         //Assigning the character to a room
         prison.setCharacter(prisoner);
 
-
-
         //Test covered item functionality
         Item coveringItem = new Item("rubble", "some rubble, there seems to be something underneath", 2.0);
         Item coveredItem = new Item("letter", "an old dusty letter", 0.5);
         coveringItem.setCoveredItem(coveredItem);
         castleSquare.addItem(coveringItem);
-        castleSquare.addItem(new Item("Sugar","a small bag of sugar", 1.0));
-        castleSquare.addItem(new Item("Flour", "a small bag of flour", 2.0));
-        castleSquare.addItem(new Item("Butter", "a stick of butter", 2.0));
-        castleSquare.addItem(new Item("Egg", "A magic egg", 0.3));
+
         return castleSquare;
     }
 
