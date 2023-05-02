@@ -40,15 +40,25 @@ public class Game
      */
     private Room createRooms()
     {
-        Room outside, theater, pub, lab, office, cellar;
 
-        // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        cellar = new Room("In the cellar");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        Room cellarStorage = new Room("in the old dusty storage room");
+        Room chapel = new Room("in the chapel");
+        Room prison = new Room("in the prison room");
+        Room guardHall = new Room("in the chamber of the guards. This must be where they sleep");
+        Room castleSquare = new Room("outside in the main square of the castle");
+        Room mainHall = new Room("in the Main Hall of the castle. This is where the Lord welcomes his guests");
+        Room weaponsRoom = new Room("in the armory. Armour and weapons are displayed here");
+        Room knightsHall = new Room("in the Knight's Hall. This is where the knights sleep");
+        Room diningHall = new Room("in the dining Hall. The food will be served here.");
+        Room kitchen = new Room("in the kitchen. It smells nice");
+        Room kitchenStorage = new Room("in the kitchen storage. There is so many food in here");
+        Room servantsHall = new Room("in the servant's Hall. The maids sleep here");
+        Room upstairsHall = new Room("in the upstairs Hall. Watch out for the stairs");
+        Room royalNightHall = new Room("in the sleeping Hall of the Castle Lord. You better not make a mess here");
+
+        cellarStorage.setExits(null, chapel, guardHall, null, kitchenStorage,null);
+        chapel.setExits(null, null, prison, cellarStorage, null, null);
+
 
         // initialise room exits
         outside.setExit("east", theater);

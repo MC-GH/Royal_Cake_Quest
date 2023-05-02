@@ -9,7 +9,7 @@ public class Player {
     private Items items = new Items();
     private double maxWeight;
     private int moves = 0;
-    private int maxMoves = 20;
+    private int maxMoves = 30;
 
     private Room lampTarget;
 
@@ -33,6 +33,7 @@ public class Player {
         return currentRoom;
     }
 
+    //Go back => Also make it count as a move?
     public void goBack(Command command) {
         if(command.hasSecondWord()) {
             System.out.println("Back where?");
@@ -43,6 +44,7 @@ public class Player {
         } else {
             //Removes last added object of Stack, and returns it.
             currentRoom = trail.pop();
+            moves++;
         }
     }
 
@@ -213,11 +215,13 @@ public class Player {
     /**
      * Fires the beamer
      */
-    //Adapt so that the fire command here also adds the room to the stack
+    //Implement a method: once we FIRE the Lamp, we clear the Stack!
     public boolean fireLamp()
     {
         if(lampTarget != null) {
             enterRoom(lampTarget);
+            //Once the fire method has been used => we clear the Stack.
+            trail.clear();
             return true;
         }
         return false;

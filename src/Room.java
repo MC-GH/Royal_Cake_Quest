@@ -42,6 +42,18 @@ public class Room {
         exits.put(direction, neighbor);
     }
 
+    //Assign all the neighbouring rooms at once, but only add the ones with a value to the HashMap.
+    public void setExits(Room nRoom, Room eRoom, Room sRoom, Room wRoom, Room uRoom, Room dRoom) {
+        String[] directions = {"north", "east", "south", "west", "up", "down"};
+        Room[] rooms = {nRoom, eRoom, sRoom, wRoom, uRoom, dRoom};
+
+        for (int i = 0; i < directions.length; i++) {
+            if (rooms[i] != null) {
+                exits.put(directions[i], rooms[i]);
+            }
+        }
+    }
+
     /**
      * Return the description of the room (the one that was defined in the
      * constructor).
