@@ -113,7 +113,7 @@ public class Player {
         HashSet<Item> ingredients = new HashSet<>();
         while(it.hasNext()) {
             Item item = it.next();
-            if(item.getName().equals("butter") || item.getName().equals("sugar")|| item.getName().equals("flour") || item.getName().equals("magic egg") ) {
+            if(item.getName().equals("Butter") || item.getName().equals("Sugar")|| item.getName().equals("Flour") || item.getName().equals("Egg") ) {
                 //Add the item to our cooking ingredients Hashset, but do not remove from items collection
                 ingredients.add(items.get(item.getName()));
             }

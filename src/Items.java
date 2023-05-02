@@ -45,12 +45,7 @@ public class Items
      */
     public void put(String name, Item item)
     {
-        //Write some logic here:
-        //If player picks up covering item => It should change to the uncovered item when PUT in his inventory
-        //If player drops an uncovered item => it should change back to the covering item
-
-        items.put(name, item);
-//        }
+        items.put(item.getName().toLowerCase(), item);
     }
 
     /**
@@ -58,9 +53,12 @@ public class Items
      * @param name The name of the item to return
      * @return The named item, or null if it is not in the list.
      */
+
+    //Use toLowerCase() method to make sure the keys are searched without a capital letter
+
     public Item get(String name)
     {
-        return items.get(name);
+        return items.get(name.toLowerCase());
     }
 
     /**
@@ -71,7 +69,7 @@ public class Items
         String returnString = "";
 
         for(Item item: items.values()) {
-            returnString += "\n" + item.getName() + " (" + item.getDescription() + ") with weight of " + item.getWeight() + "kg";
+            returnString += "\n" + item.getName() + " (" + item.getDescription() + ") with weight of " + item.getWeight() + " kg";
         }
 
         return returnString;

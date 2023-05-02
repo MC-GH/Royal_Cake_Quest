@@ -138,12 +138,9 @@ public class Room {
         return this.character;
     }
 
-    public boolean characterVisited() {
-        return character.hasBeenVisited();
-    }
-
     //Character plaatst het Item in de collectie Items van de kamer (String key, Item value)
     //Return de naam (String) van het item
+    //Character puts his item in the Items collection of the room
     public String getCharacterItem() {
         //The character.getItem() method can only be called once. Once called, the Item the character is holding is set to null
         Item characterItem = character.getItem();

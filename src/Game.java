@@ -76,15 +76,17 @@ public class Game
         upstairsHall.setExits(null, royalNightHall, null, servantsHall, null, mainHall);
         royalNightHall.setExits(null, null, null, upstairsHall, null, null);
 
-        //Random toewijzing van items aan kamers:
-        //ArrayList maken items, alle Items erin
+        //Creating and assigning Item objects
+        //2 items will have a fixed (not random) location
+        guardHall.addItem(new Item("Key", "A key to the prisoner's cell", 0.2));
+        kitchen.addItem(new Item("Recipe", "It reads: to prepare the Royal Cake, mix flour, butter, sugar and a magic egg",0.1));
 
-        //Recipe item should be in kitchen
-        //Key to the prison cell should be in the guardHall.
+        //Create an ArrayList with items that will be spread out randomly over the rooms
         ArrayList<Item> items = new ArrayList<>();
-        items.add( new Item("Book", "A book of recipes", 0.5));
-        items.add( new Item("candle","An unused candle", 0.1));
-        items.add( new Item("cookie", "A magic cookie", 0.1));
+        items.add(new Item("Book", "a book of recipes", 0.5));
+        items.add(new Item("Candle","an unused candle", 0.1));
+        items.add(new Item("Cookie", "a magic cookie", 0.1));
+
         ArrayList<Room> rooms = new ArrayList<>();
         //Create new ArrayList from rooms
         rooms.addAll(Arrays.asList(castleSquare));
@@ -113,19 +115,16 @@ public class Game
         prison.setCharacter(prisoner);
 
 
-        guardHall.addItem(new Item("key", "A key to the prisoner's cell", 0.2));
 
         //Test covered item functionality
         Item coveringItem = new Item("rubble", "some rubble, there seems to be something underneath", 2.0);
         Item coveredItem = new Item("letter", "an old dusty letter", 0.5);
         coveringItem.setCoveredItem(coveredItem);
         castleSquare.addItem(coveringItem);
-        castleSquare.addItem(new Item("sugar","a small bag of sugar", 1.0));
-        castleSquare.addItem(new Item("flour", "a small bag of flour", 2.0));
-        castleSquare.addItem(new Item("butter", "a stick of butter", 2.0));
-        //In de keuken een recept plaatsen met de instructies op
-
-
+        castleSquare.addItem(new Item("Sugar","a small bag of sugar", 1.0));
+        castleSquare.addItem(new Item("Flour", "a small bag of flour", 2.0));
+        castleSquare.addItem(new Item("Butter", "a stick of butter", 2.0));
+        castleSquare.addItem(new Item("Egg", "A magic egg", 0.3));
         return castleSquare;
     }
 
@@ -397,7 +396,7 @@ public class Game
             //By calling this method: the CharacterItem is put in the Items collection of the room.
             //Store the key (String) of the item returned by the Character
             String rewardItem = player.getCurrentRoom().getCharacterItem();
-            //Use the pickup method to place the item in the inventory of the player
+            //Use the pickup method to remove the item from the room and place the item in the inventory of the player
             player.pickUpItem(rewardItem);
         } else {
             //Het gewenste item is niet in het bezit, dus standaard dialoog wordt uitegevoerd
