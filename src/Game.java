@@ -79,7 +79,7 @@ public class Game
         //Creating and assigning Item objects
         //2 items will have a fixed (not random) location
         guardHall.addItem(new Item("Key", "A key to the prisoner's cell", 0.2));
-        kitchen.addItem(new Item("Recipe", "It reads: to prepare the Royal Cake, mix flour, butter, sugar and a magic egg",0.1));
+        kitchen.addItem(new Item("Recipe", "A recipe which reads: to prepare the Royal Cake, mix flour, butter, sugar and a magic egg",0.1));
 
         //Create an ArrayList with items that will be spread out randomly over the rooms
         ArrayList<Item> items = new ArrayList<>();
@@ -272,8 +272,9 @@ public class Game
      */
     private void printHelp()
     {
-        System.out.println("Player " + player.getName() + " is lost and alone, and wanders");
-        System.out.println("around at the university.");
+        System.out.println("You are currently in " + player.getCurrentRoom() + ".");
+        System.out.println("Your goal is to find the necessary ingredients to prepare the cake.");
+        System.out.println("Try searching for a recipe to find out which ingredients you need.");
         System.out.println();
         System.out.println("Your command words are:");
         parser.getCommandList();

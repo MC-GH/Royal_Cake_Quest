@@ -99,9 +99,7 @@ public class Items
         for(Iterator<Item> iter = items.values().iterator(); iter.hasNext(); ) {
             weight += iter.next().getWeight();
         }
-        //return double in a fixed format to avoid binary rounding errors
-        DecimalFormat df = new DecimalFormat("#.#");
-        return Double.parseDouble(df.format(weight));
+        return weight;
     }
 
     public boolean isEmpty() {

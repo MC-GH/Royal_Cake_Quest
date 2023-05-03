@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Stack;
@@ -123,6 +124,7 @@ public class Player {
             items.put(reward.getName(), reward);
         } else {
             System.out.println("You don't seem to have the necessary ingredients to cook the dessert.");
+            System.out.println("Try searching for a recipe to find out which ingredients you need.");
         }
     }
 
@@ -177,7 +179,10 @@ public class Player {
         if(items.isEmpty()) {
             return returnString + "\nInventory is empty";
         }
-        return  returnString + items.getLongDescription() + "\nTotal weight: " + items.getTotalWeight() + " / " + maxWeight + " kg";
+        //Set up a formatting for the totalweight to display only 1 digit after comma.
+        //Otherwise due to binary rounding errors we can get numbers with several digits
+        String totalWeight = String.format("%.1f", items.getTotalWeight());
+        return returnString + items.getLongDescription() + "\nTotal weight: " + totalWeight + " / " + maxWeight + " kg";
     }
     //Return the item of the inventory, without removing it
     public Item getItem(String item) {
