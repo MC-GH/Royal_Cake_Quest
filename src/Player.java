@@ -177,7 +177,7 @@ public class Player {
         if(items.isEmpty()) {
             return returnString + "\nInventory is empty";
         }
-        return  returnString + items.getLongDescription() + "\nTotal weight: " + items.getTotalWeight();
+        return  returnString + items.getLongDescription() + "\nTotal weight: " + items.getTotalWeight() + " / " + maxWeight + " kg";
     }
     //Return the item of the inventory, without removing it
     public Item getItem(String item) {

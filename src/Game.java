@@ -104,16 +104,16 @@ public class Game
         items.add(new Item("Pot", "an old dirty clay pot", 2.2));
         items.add(new Item("Milk", "a jug of fresh cow milk", 1.5));
 
+        //Store all the rooms in an ArrayList
         ArrayList<Room> rooms = new ArrayList<>();
-        //Create new ArrayList from rooms
-        rooms.addAll(Arrays.asList(castleSquare));
-        Random r = new Random();
+        rooms.addAll(Arrays.asList(cellarStorage, chapel, prison, guardHall, castleSquare, mainHall, weaponsRoom,
+                knightsHall, diningHall, kitchen, kitchenStorage, servantsHall, upstairsHall, royalNightHall));
 
-        //For each item, assign it to a Random Room
+        //Create a new Random object and add all the items to a random room
+        Random r = new Random();
         for(int i = 0; i < items.size(); i++) {
             Room randomRoom = rooms.get(r.nextInt(rooms.size()));
             randomRoom.addItem(items.get(i));
-            System.out.println("Item " + items.get(i).getName() + " has been added  " + randomRoom.getShortDescription());
         }
 
        //Creating a character and setting up the character dialogue.
@@ -173,23 +173,18 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("==========================================================================");
-        System.out.println("==================== WELCOME TO THE ROYAL CAKE QUEST! ====================");
-        System.out.println("==========================================================================");
-        System.out.println("======= The King is throwing a feast tonight for important guests. =======");
-        System.out.println("=== As the assistant of the cook, you are in charge of the Royal Cake. ===");
-        System.out.println("==== Unfortunately, the ingredients are spread throughout the castle. ====");
-        System.out.println("===== You need to find the ingredients and assemble (COOK) the cake. =====");
-        System.out.println("================ Hurry up, the guests are getting hungry! ================");
-        System.out.println("==================== Type " + CommandWord.HELP.toString() + " if you need some help. ====================");
-        System.out.println("==========================================================================");
-        System.out.println("=== TIP: start by searching for a recipe so you know what to look for. ===");
-        System.out.println("TIP2: you are carrying a magic lamp which can store your current location.");
-        System.out.println("============ Use command LOAD to store your current location. ============");
-        System.out.println("==== Use command FIRE to teleport to your saved location. Use wisely! ====");
-        System.out.println("==========================================================================");
-
-
+        System.out.println("====================================================================================");
+        System.out.println("========================= WELCOME TO THE ROYAL CAKE QUEST! =========================");
+        System.out.println("====================================================================================");
+        System.out.println("The King is throwing a feast tonight for important guests. As the assistant of the");
+        System.out.println("cook, you are in charge of the Royal Cake. Unfortunately, the ingredients are spread");
+        System.out.println("throughout the castle. You need to find the ingredients and assemble (COOK) the cake.");
+        System.out.println("====================================================================================");
+        System.out.println("Type " + CommandWord.HELP + " if you need some help.");
+        System.out.println("TIP: start by searching for a recipe so you know what to look for.");
+        System.out.println("TIP 2: you are carrying a magic lamp which can store your current location.");
+        System.out.println("Use LOAD to store your current location. Use FIRE to teleport to your saved location.");
+        System.out.println("====================================================================================");
         System.out.println();
         printLocationInfo();
     }
