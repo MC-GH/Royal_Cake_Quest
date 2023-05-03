@@ -125,6 +125,8 @@ public class Room {
      * @param name The item to be removed.
      * @return The item if removed, null otherwise.
      */
+    //Hashmap keys are stored in lowercase. If we need to remove an item from the items
+    //collection triggered by talking to the character, no input passes via the parser.
     public Item removeItem(String name) {
         return items.remove(name);
     }

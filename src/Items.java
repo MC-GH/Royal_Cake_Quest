@@ -34,9 +34,10 @@ public class Items
      * Remove the given item.
      * @param itemName The name of the item to be removed.
      */
+    //Tolowercase to make sure we are always searching for the lowercase key
     public Item remove(String itemName)
     {
-        return items.remove(itemName);
+        return items.remove(itemName.toLowerCase());
     }
 
     /**
@@ -44,9 +45,11 @@ public class Items
      * @param name The name of the item.
      * @param item The item.
      */
+
+    //toLowerCase to make sure all keys are entered in lowercase
     public void put(String name, Item item)
     {
-        items.put(item.getName().toLowerCase(), item);
+        items.put(name.toLowerCase(), item);
     }
 
     /**
@@ -56,7 +59,6 @@ public class Items
      */
 
     //Use toLowerCase() method to make sure the keys are searched without a capital letter
-
     public Item get(String name)
     {
         return items.get(name.toLowerCase());
