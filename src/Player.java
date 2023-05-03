@@ -159,16 +159,37 @@ public class Player {
      * @param itemName The item to be eaten.
      */
     public Item eat(String itemName) {
-        if(itemName.equals("cookie")) {
-            //First see if we have a cookie in our inventory
-            Item cookie = items.get(itemName);
-            //Then check if there is a cookie in the room
-            if(cookie == null) {
-                cookie = currentRoom.removeItem(itemName);
+//        if(itemName.equals("cookie")) {
+//            //First see if we have a cookie in our inventory
+//            Item cookie = items.get(itemName);
+//            //Then check if there is a cookie in the room
+//            if(cookie == null) {
+//                cookie = currentRoom.removeItem(itemName);
+//            }
+//            if(cookie != null) {
+//                maxWeight += 3;
+//                return cookie;
+//            }
+        if(itemName.equals("cookie") || itemName.equals("wine") ||itemName.equals("coffee")) {
+            //Check if we have one of the items in our inventory. Remove from player inventory if we do.
+            Item item = items.remove(itemName);
+//          //Then check if one of the items is in the room. Remove from room if there is.
+            if(item == null) {
+                item = currentRoom.removeItem(itemName);
             }
-            if(cookie != null) {
-                maxWeight += 3;
-                return cookie;
+            if(item != null) {
+                switch(item.getName()) {
+                    case "Cookie":
+                        maxWeight += 3;
+                        return item;
+                    case "Wine":
+                        maxMoves -= 5;
+                        maxWeight -= 1;
+                        return item;
+                    case "Coffee":
+                        maxMoves += 10;
+                        return item;
+                }
             }
         }
         return null;
