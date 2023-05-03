@@ -50,7 +50,7 @@ public class Game
         Room mainHall = new Room("in the Main Hall of the castle. This is where the Lord welcomes his guests");
         Room weaponsRoom = new Room("in the armory. Armour and weapons are displayed here");
         Room knightsHall = new Room("in the Knight's Hall. This is where the knights sleep");
-        Room diningHall = new Room("in the dining Hall. The food will be served here.");
+        Room diningHall = new Room("in the dining Hall. The food will be served here");
         Room kitchen = new Room("in the kitchen. It smells nice");
         Room kitchenStorage = new Room("in the kitchen storage. There is so many food in here");
         //Upstairs rooms
