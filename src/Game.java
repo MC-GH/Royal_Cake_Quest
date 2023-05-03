@@ -83,16 +83,26 @@ public class Game
 
         //Create an ArrayList with items that will be spread out randomly over the rooms
         ArrayList<Item> items = new ArrayList<>();
-        items.add(new Item("Book", "a book of recipes", 0.5));
+        items.add(new Item("Book", "an old history book", 0.5));
         items.add(new Item("Candle","an unused candle", 0.1));
         items.add(new Item("Cookie", "a magic cookie", 0.1));
         items.add(new Item("Sugar","a small bag of sugar", 1.0));
         items.add(new Item("Flour", "a small bag of flour", 2.0));
         items.add(new Item("Butter", "a stick of butter", 2.0));
-        //
-        //
-        //
-
+        items.add(new Item("Sword", "a very sharp steel sword", 7.0));
+        items.add(new Item("Chandelier", "a large decorative light fixture", 4.0));
+        items.add(new Item("Goblet", "a fancy drinking glass", 0.8));
+        items.add(new Item("Boots", "a pair of sturdy leather boots", 2.5));
+        items.add(new Item("Quill", "a feather used for writing", 0.1));
+        items.add(new Item("Torch", "a long wooden stick used for lighting", 2.2));
+        items.add(new Item("Gauntlets", "a pair of protective gloves worn in battle", 2.4));
+        items.add(new Item("Portrait", "an oil painting of the castle Lord", 12.0));
+        items.add(new Item("Lamp", "a lamp that uses oil as fuel", 1.5));
+        items.add(new Item("Mace", "a heavy weapon with a spiked head used for combat", 10.0));
+        items.add(new Item("Wine", "a jug full of red wine", 2.0));
+        items.add(new Item("Scepter", "a ceremonial staff from the castle Lord", 3.5));
+        items.add(new Item("Pot", "an old dirty clay pot", 2.2));
+        items.add(new Item("Milk", "a jug of fresh cow milk", 1.5));
 
         ArrayList<Room> rooms = new ArrayList<>();
         //Create new ArrayList from rooms
