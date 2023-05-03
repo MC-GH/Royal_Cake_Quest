@@ -17,7 +17,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         trail = new Stack<>();
-        this.maxWeight = 15;
+        this.maxWeight = 6;
     }
 
     public void setStartRoom(Room room) {
@@ -167,7 +167,7 @@ public class Player {
                 cookie = currentRoom.removeItem(itemName);
             }
             if(cookie != null) {
-                maxWeight += 1;
+                maxWeight += 3;
                 return cookie;
             }
         }
