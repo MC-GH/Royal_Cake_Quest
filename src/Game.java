@@ -117,7 +117,7 @@ public class Game
         }
 
        //Creating a character and setting up the character dialogue.
-        Character prisoner = new Character("Lancelot", new Item("egg", "A magic egg used to create very special desserts", 0.1), "key");
+        Character prisoner = new Character("Lancelot", new Item("Egg", "A magic egg used to create very special desserts", 0.1), "key");
 
         prisoner.setIntroductionString("Hello, my name is " + prisoner.getName() +
                 "\nI have been thrown in this cell for stealing some food from the kitchen." +
@@ -191,6 +191,7 @@ public class Game
 
     private void printLocationInfo() {
         System.out.println(player.getCurrentRoom().getLongDescription());
+        System.out.println(player.getMoves());
         System.out.println();
     }
 
@@ -272,7 +273,7 @@ public class Game
      */
     private void printHelp()
     {
-        System.out.println("You are currently in " + player.getCurrentRoom() + ".");
+        System.out.println("You are currently " + player.getCurrentRoom().getShortDescription() + ".");
         System.out.println("Your goal is to find the necessary ingredients to prepare the cake.");
         System.out.println("Try searching for a recipe to find out which ingredients you need.");
         System.out.println();
@@ -453,7 +454,7 @@ public class Game
     {
         if(player.fireLamp()) {
             System.out.println("Beamer fired.");
-            System.out.println(player.getLongDescription());
+            System.out.println(player.getCurrentRoom().getLongDescription());
         }
         else {
             System.out.println("Beamer not charged.");

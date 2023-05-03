@@ -184,6 +184,7 @@ public class Player {
         String totalWeight = String.format("%.1f", items.getTotalWeight());
         return returnString + items.getLongDescription() + "\nTotal weight: " + totalWeight + " / " + maxWeight + " kg";
     }
+
     //Return the item of the inventory, without removing it
     public Item getItem(String item) {
         if(items.get(item) != null) {
@@ -200,8 +201,13 @@ public class Player {
     public String getLongDescription()
     {
         String returnString = currentRoom.getLongDescription();
-        returnString += "\n" + getInventoryDescription();
+        returnString += "\n" + getInventoryDescription() + "\n" +
+        "Moves played: " + moves + "/" + maxMoves;
         return returnString;
+    }
+
+    public String getMoves() {
+        return "Moves remaining: " + moves + "/" + maxMoves;
     }
 
     public boolean isDead()
