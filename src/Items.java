@@ -98,8 +98,11 @@ public class Items
     public double getTotalWeight()
     {
         double weight = 0;
-        for(Iterator<Item> iter = items.values().iterator(); iter.hasNext(); ) {
-            weight += iter.next().getWeight();
+        //Check if we can write in lambda?
+//        items.values().forEach(item -> weight += item.getWeight());
+
+        for(Item item: items.values()) {
+            weight += item.getWeight();
         }
         return weight;
     }
