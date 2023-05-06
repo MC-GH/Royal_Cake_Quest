@@ -134,7 +134,7 @@ public class Game {
                 "\nAs you place the magic egg in your inventory, you see the prisoner quietly sneaking out of the room.");
         //Assigning the character to a room
         prison.setCharacter(prisoner);
-
+        //Return a Room object where the game will start
         return castleSquare;
     }
 
@@ -158,14 +158,13 @@ public class Game {
                 finished = true;
             }
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing. Good bye.");
     }
 
     /**
      * Print out the opening message for the player.
      */
-    private void printWelcome()
-    {
+    private void printWelcome() {
         System.out.println();
         System.out.println("====================================================================================");
         System.out.println("========================= WELCOME TO THE ROYAL CAKE QUEST! =========================");
@@ -183,6 +182,10 @@ public class Game {
         printLocationInfo();
     }
 
+    /**
+     * Print some info about the current room, such as the items in the room, the room exits,
+     * the characters, and the remaining moves left of the player.
+     */
     private void printLocationInfo() {
         System.out.println(player.getCurrentRoom().getLongDescription());
         System.out.println(player.getMoves());
@@ -202,8 +205,7 @@ public class Game {
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command)
-    {
+    private boolean processCommand(Command command) {
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
@@ -220,22 +222,22 @@ public class Game {
                 printHelp();
                 break;
             case GO:
-                goRoom(command);//Methode van Player object
+                goRoom(command);
                 break;
             case LOOK:
-                look(); //Methode van Player object
+                look();
                 break;
             case INVENTORY:
-                inventory();//Methode van Player object
+                inventory();
                 break;
             case BACK:
-                goBack(command);//Methode van Player object
+                goBack();
                 break;
             case TAKE:
-                take(command);//Methode van Player object
+                take(command);
                 break;
             case DROP:
-                drop(command);//Methode van Player object
+                drop(command);
                 break;
             case TALK:
                 talk();
@@ -247,7 +249,7 @@ public class Game {
                 fire();
                 break;
             case EAT:
-                eat(command);//Methode van Player object
+                eat(command);
                 break;
             case COOK:
                 cook();
@@ -258,15 +260,10 @@ public class Game {
         return wantToQuit;
     }
 
-    // implementations of user commands:
-
     /**
-     * Print out some help information.
-     * Here we print some stupid, cryptic message and a list of the
-     * command words.
+     * Print out some help information such as current room and possible command words.
      */
-    private void printHelp()
-    {
+    private void printHelp() {
         System.out.println("You are currently " + player.getCurrentRoom().getShortDescription() + ".");
         System.out.println("Your goal is to find the necessary ingredients to prepare the cake.");
         System.out.println("Try searching for a recipe to find out which ingredients you need.");
@@ -279,8 +276,7 @@ public class Game {
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
      */
-    private void goRoom(Command command)
-    {
+    private void goRoom(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
@@ -296,14 +292,12 @@ public class Game {
             System.out.println("There is no door!");
         }
         else {
-
             enterRoom(nextRoom);
         }
     }
 
     /**
-     * Voert de opgegeven ruimte in en drukt de beschrijving af
-     * @param nextRoom
+     * Enter room and print info about the room.
      */
     private void enterRoom(Room nextRoom) {
         player.enterRoom(nextRoom);
@@ -311,11 +305,10 @@ public class Game {
     }
 
     /**
-     * Ga terug naar de vorige ruimte.
+     * Go back to the previous room. Also counts as a "move" for the player.
      */
-
-    private void goBack(Command command) {
-        player.goBack(command);
+    private void goBack() {
+        player.goBack();
         printLocationInfo();
     }
 
@@ -323,8 +316,7 @@ public class Game {
      * Try to take an item from the current room. If the item is there,
      * pick it up, if not print an error message.
      */
-    private void take(Command command)
-    {
+    private void take(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know what to take...
             System.out.println("What do you want to take?");
@@ -346,8 +338,7 @@ public class Game {
      * Drops an item into the current room. If the player carries the item
      * drop it, if not print an error message.
      */
-    private void drop(Command command)
-    {
+    private void drop(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know what to drop...
             System.out.println("What do you want to drop?");
@@ -368,7 +359,6 @@ public class Game {
             } else {
                 System.out.println(item.getDescription());
             }
-//            System.out.println("Dropped " + item.getDescription());
             System.out.println(player.getInventoryDescription());
         }
     }
@@ -378,25 +368,30 @@ public class Game {
      * whether we really quit the game.
      * @return true, if this command quits the game, false otherwise.
      */
-    private boolean quit(Command command)
-    {
+    private boolean quit(Command command) {
         if(command.hasSecondWord()) {
             System.out.println("Quit what?");
             return false;
         }
         else {
-            return true;  // signal that we want to quit
+            return true;
         }
     }
 
+    /**
+     * Look around in the current room and print some info.
+     */
     private void look() {
         System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
+    /**
+     * Check if the player carries an item that the Character requests.
+     * If it is the case, player receives a reward item from the character.
+     * Print out dialogue of character depending on situation.
+     */
     private void talk() {
-
         String itemToFind = player.getCurrentRoom().getItemRequested();
-
         if(player.getItem(itemToFind) != null && player.getCurrentRoom().getCharacter().hasBeenVisited()) {
             //By calling this method: the CharacterItem is put in the Items collection of the room.
             //Store the key (String) of the item returned by the Character
@@ -404,7 +399,6 @@ public class Game {
             //Use the pickup method to remove the item from the room and place the item in the inventory of the player
             player.pickUpItem(rewardItem);
         } else {
-            //Het gewenste item is niet in het bezit, dus standaard dialoog wordt uitegevoerd
             System.out.println(player.getCurrentRoom().talk());
         }
     }
@@ -417,8 +411,7 @@ public class Game {
      * Try to take an item from the current room. If the item is there,
      * pick it up, if not print an error message.
      */
-    private void eat(Command command)
-    {
+    private void eat(Command command) {
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know what to eat...
             System.out.println("What do you want to eat?");

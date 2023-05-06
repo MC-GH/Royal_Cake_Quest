@@ -35,16 +35,12 @@ public class Player {
         return currentRoom;
     }
 
-    //Go back => Also make it count as a move?
-    public void goBack(Command command) {
-        if(command.hasSecondWord()) {
-            System.out.println("Back where?");
-            return;
-        }
+
+    public void goBack() {
         if(trail.empty()) {
             System.out.println("You have nowhere to go back to!");
         } else {
-            //Removes last added object of Stack, and returns it.
+            //Removes last added object of Stack, and assign it as the currentRoom.
             currentRoom = trail.pop();
             moves++;
         }
@@ -53,8 +49,6 @@ public class Player {
     public String getName() {
         return name;
     }
-
-
 
     /**
      * Checks if we can pick up the given item. This depends on whether the item
