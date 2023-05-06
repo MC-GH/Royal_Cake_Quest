@@ -1,26 +1,23 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- *  This class is the main class of the "World of Zuul" application.
- *  "World of Zuul" is a very simple, text based adventure game.  Users
- *  can walk around some scenery. That's all. It should really be extended
- *  to make it more interesting!
- *
- *  To play this game, create an instance of this class and call the "play"
- *  method.
+ *  This class is the main class of the "Royal Cake Quest" game.
+ *  "Royal Cake Quest" is a simple game where the player can explore several rooms,
+ *  pick up items and talk to characters. The goal is to find several ingredients
+ *  spread throughout the Castle, and prepare a Cake by using the COOK command.
  *
  *  This main class creates and initialises all the others: it creates all
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  *
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * @author  Michaël Cornelis
+ * @version 2023.05.06
  */
 
-public class Game
-{
+public class Game {
     private Parser parser;
     private Player player;
 
@@ -36,7 +33,8 @@ public class Game
     }
 
     /**
-     * Create all the rooms and link their exits together.
+     * Create all the Rooms, items, characters and assign them to eachother.
+     * @return A Room object where the game will start.
      */
     private Room createRooms()
     {
@@ -106,7 +104,7 @@ public class Game
 
         //Set up an item that covers another item
         Item coveringItem = new Item("Box", "a box, there seems to be something in it", 0.2);
-        Item coveredItem = new Item("Shoe", "an old dirty shoe", 0.5);
+        Item coveredItem = new Item("Boot", "an old dirty boot", 0.5);
         coveringItem.setCoveredItem(coveredItem);
         items.add(coveringItem);
 
@@ -143,13 +141,10 @@ public class Game
     /**
      *  Main play routine.  Loops until end of play.
      */
-    public void play()
-    {
+    private void play() {
         printWelcome();
-
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -162,7 +157,6 @@ public class Game
                 printVictory();
                 finished = true;
             }
-
         }
         System.out.println("Thank you for playing.  Good bye.");
     }
@@ -195,7 +189,7 @@ public class Game
         System.out.println();
     }
 
-    public void printVictory() {
+    private void printVictory() {
         System.out.println("You managed to bake the cake and save the party. Congratulations! You have won the game.");
     }
 
@@ -440,24 +434,24 @@ public class Game
         }
     }
 
-    public void cook() {
+    private void cook() {
         player.cook();
     }
 
     private void charge()
     {
         player.chargeLamp();
-        System.out.println("Beamer charged.");
+        System.out.println("Lamp has been charged.");
     }
 
     private void fire()
     {
         if(player.fireLamp()) {
-            System.out.println("Beamer fired.");
+            System.out.println("Lamp fired.");
             System.out.println(player.getCurrentRoom().getLongDescription());
         }
         else {
-            System.out.println("Beamer not charged.");
+            System.out.println("Lamp not charged.");
         }
     }
 
