@@ -1,6 +1,10 @@
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A list of items.
@@ -78,19 +82,6 @@ public class Items
         return returnString;
     }
 
-//    /**
-//     * Return a string listing the names of the
-//     * items in the list.
-//     */
-//    public String getShortDescription()
-//    {
-//        String returnString = "";
-//        for(Iterator<Item> iter = items.values().iterator(); iter.hasNext(); )
-//            returnString += " " + iter.next().getName();
-//
-//        return returnString;
-//    }
-
     /**
      * Return the total weight of all items in the list.
      * @return The total weight
@@ -98,9 +89,6 @@ public class Items
     public double getTotalWeight()
     {
         double weight = 0;
-        //Check if we can write in lambda?
-//        items.values().forEach(item -> weight += item.getWeight());
-
         for(Item item: items.values()) {
             weight += item.getWeight();
         }
@@ -111,4 +99,3 @@ public class Items
         return items.isEmpty();
     }
 }
-

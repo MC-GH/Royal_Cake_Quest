@@ -13,10 +13,6 @@ import java.util.HashMap;
 
 public class CommandWords
 {
-    //    // a constant array that holds all valid command words
-//    private static final String[] validCommands = {
-//        "go", "look", "inventory", "back", "take", "drop", "eat", "quit", "help"
-//    };
     private HashMap<String, CommandWord> validCommands;
 
     /**
@@ -43,9 +39,7 @@ public class CommandWords
 
     public void showAll()
     {
-        for(String command : validCommands.keySet()) {
-            System.out.print(command + "  ");
-        }
+        validCommands.keySet().forEach(command -> System.out.print(command + " "));
         System.out.println();
     }
 

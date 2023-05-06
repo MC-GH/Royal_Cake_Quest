@@ -80,16 +80,12 @@ public class Game
         //2 items will have a fixed (not random) location
         guardHall.addItem(new Item("Key", "A key to the prisoner's cell", 0.2));
         kitchen.addItem(new Item("Recipe", "A recipe which reads: to prepare the Royal Cake, mix flour, butter, sugar and a magic egg",0.1));
-        castleSquare.addItem(new Item("Coffee", "a mug of coffee, good for energy", 1.5));
-        castleSquare.addItem(new Item("Wine", "a jug full of red wine", 2.0));
-        castleSquare.addItem(new Item("Cookie", "a magic cookie, very tasty", 0.1));
-
 
         //Create an ArrayList with items that will be spread out randomly over the rooms
         ArrayList<Item> items = new ArrayList<>();
         items.add(new Item("Book", "an old history book", 0.5));
         items.add(new Item("Candle","an unused candle", 0.1));
-        items.add(new Item("Cookie", "a magic cookie, very tasty", 0.1));
+        items.add(new Item("Cookie", "a magic cookie, looks tasty", 0.1));
         items.add(new Item("Sugar","a small bag of sugar", 1.0));
         items.add(new Item("Flour", "a small bag of flour", 2.0));
         items.add(new Item("Butter", "a stick of butter", 2.0));
@@ -102,11 +98,17 @@ public class Game
         items.add(new Item("Portrait", "an oil painting of the castle Lord", 4.0));
         items.add(new Item("Lamp", "a lamp that uses oil as fuel", 1.5));
         items.add(new Item("Mace", "a heavy weapon with a spiked head used for combat", 8.0));
-        items.add(new Item("Wine", "a jug full of red wine", 2.0));
+        items.add(new Item("Mushrooms", "some strange mushrooms", 0.8));
         items.add(new Item("Scepter", "a ceremonial staff from the castle Lord", 3.5));
         items.add(new Item("Pot", "an old dirty clay pot", 2.2));
         items.add(new Item("Milk", "a jug of fresh cow milk", 1.5));
-        items.add(new Item("Coffee", "a mug of coffee, good for energy", 1.5));
+        items.add(new Item("Chocolate", "a bar of chocolate, gives extra energy", 0.2));
+
+        //Set up an item that covers another item
+        Item coveringItem = new Item("Box", "a box, there seems to be something in it", 0.2);
+        Item coveredItem = new Item("Shoe", "an old dirty shoe", 0.5);
+        coveringItem.setCoveredItem(coveredItem);
+        items.add(coveringItem);
 
         //Store all the rooms in an ArrayList
         ArrayList<Room> rooms = new ArrayList<>();
@@ -134,12 +136,6 @@ public class Game
                 "\nAs you place the magic egg in your inventory, you see the prisoner quietly sneaking out of the room.");
         //Assigning the character to a room
         prison.setCharacter(prisoner);
-
-        //Test covered item functionality
-        Item coveringItem = new Item("rubble", "some rubble, there seems to be something underneath", 2.0);
-        Item coveredItem = new Item("letter", "an old dusty letter", 0.5);
-        coveringItem.setCoveredItem(coveredItem);
-        castleSquare.addItem(coveringItem);
 
         return castleSquare;
     }
@@ -404,7 +400,9 @@ public class Game
     }
 
     private void talk() {
+
         String itemToFind = player.getCurrentRoom().getItemRequested();
+
         if(player.getItem(itemToFind) != null && player.getCurrentRoom().getCharacter().hasBeenVisited()) {
             //By calling this method: the CharacterItem is put in the Items collection of the room.
             //Store the key (String) of the item returned by the Character
@@ -439,14 +437,11 @@ public class Game
         }
         else {
             System.out.println("Ate " + item.getDescription());
-
-            //Currently this does not remove the item from the Items HashMap
         }
     }
 
     public void cook() {
         player.cook();
-        //If dessert is successfull, add it to the Items of the player, ending the game.
     }
 
     private void charge()

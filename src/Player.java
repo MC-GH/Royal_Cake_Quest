@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Stack;
@@ -100,7 +101,7 @@ public class Player {
                 return item;
             }
         }
-        //We can't pick it up -- not necessary?
+        //We can't pick it up
         else {
             return null;
         }
@@ -145,7 +146,7 @@ public class Player {
                 //set the item in the inventory back as the covered item
                 coveringItem.setCoveredItem(item);
                 currentRoom.addItem(coveringItem);
-                System.out.println("You hide the " + item.getName() + " back in a " + coveringItem.getName());
+                System.out.println("You hide the " + item.getName() + " back in a random " + coveringItem.getName());
                 return coveringItem;
             }
             currentRoom.addItem(item);
@@ -159,18 +160,8 @@ public class Player {
      * @param itemName The item to be eaten.
      */
     public Item eat(String itemName) {
-//        if(itemName.equals("cookie")) {
-//            //First see if we have a cookie in our inventory
-//            Item cookie = items.get(itemName);
-//            //Then check if there is a cookie in the room
-//            if(cookie == null) {
-//                cookie = currentRoom.removeItem(itemName);
-//            }
-//            if(cookie != null) {
-//                maxWeight += 3;
-//                return cookie;
-//            }
-        if(itemName.equals("cookie") || itemName.equals("wine") ||itemName.equals("coffee")) {
+
+        if(itemName.equals("cookie") || itemName.equals("mushrooms") ||itemName.equals("chocolate")) {
             //Check if we have one of the items in our inventory. Remove from player inventory if we do.
             Item item = items.remove(itemName);
 //          //Then check if one of the items is in the room. Remove from room if there is.
@@ -181,12 +172,13 @@ public class Player {
                 switch(item.getName()) {
                     case "Cookie":
                         maxWeight += 3;
+                        System.out.println("You feel stronger.");
                         return item;
-                    case "Wine":
+                    case "Mushrooms":
                         maxMoves -= 5;
                         maxWeight -= 1;
                         return item;
-                    case "Coffee":
+                    case "Chocolate":
                         maxMoves += 10;
                         return item;
                 }

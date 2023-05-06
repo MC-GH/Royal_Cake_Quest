@@ -157,10 +157,7 @@ public class Room {
      * @return a String of the name of the item the Character is requesting from the player.
      */
     public String getItemRequested() {
-        if(character != null) {
-            return character.getItemRequested();
-        }
-        return null;
+        return character.getItemRequested();
     }
 
     public String talk() {
