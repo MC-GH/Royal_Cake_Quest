@@ -63,9 +63,13 @@ public class Items
      */
 
     //Use toLowerCase() method to make sure the keys are searched without a capital letter
+    //Ergens wordt items.get() aangeroepen met een null parameter
     public Item get(String name)
     {
-        return items.get(name.toLowerCase());
+        if(name != null) {
+            return items.get(name.toLowerCase());
+        }
+            return null;
     }
 
     /**
