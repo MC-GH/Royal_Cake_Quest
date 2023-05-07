@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.*;
 
 /**
@@ -161,6 +160,7 @@ public class Player {
      * Eats the item if possible.
      * Some items can be eaten, and grant a certain effect on the player.
      * @param itemName The item to be eaten.
+     * @return The item that is to be eaten.
      */
     public Item eat(String itemName) {
         //Store edible items
@@ -193,6 +193,10 @@ public class Player {
         return null;
     }
 
+    /**
+     *
+     * @return A string containing details of the player inventory.
+     */
     public String getInventoryDescription() {
         String returnString = "Player " + getName() + " has at the moment following item(s) in his inventory: ";
         if(items.isEmpty()) {
@@ -204,38 +208,27 @@ public class Player {
         return returnString + items.getLongDescription() + "\nTotal weight: " + totalWeight + " / " + maxWeight + " kg";
     }
 
-    //Return the item of the inventory, without removing it
+    /**
+     * @param item The name of the Item.
+     * @return the Item object, or null if it doesn't exist.
+     */
     public Item getItem(String item) {
         if(items.get(item) != null) {
             return items.get(item);
         }
         return null;
     }
-//
-//    /**
-//     * Returns a string describing the players current location and which
-//     * items the player carries.
-//     * @return A description of the room and items held.
-//     */
-    public String getLongDescription()
-    {
-        String returnString = currentRoom.getLongDescription();
-        returnString += "\n" + getInventoryDescription() + "\n" +
-        "Moves played: " + moves + "/" + maxMoves;
-        return returnString;
-    }
 
     public String getMoves() {
         return "Moves remaining: " + moves + "/" + maxMoves;
     }
 
-    public boolean isDead()
-    {
+    public boolean isDead() {
         return moves > maxMoves;
     }
 
     /**
-     * Charger the beamer to the current room
+     * Charge the Lamp with the current room
      */
     public void chargeLamp()
     {
@@ -243,9 +236,9 @@ public class Player {
     }
 
     /**
-     * Fires the beamer
+     * Fires the Lamp and also CLEARS the Stack. So if the Lamp is fired,
+     * player can no longer go back to his previously visited rooms.
      */
-    //Implement a method: once we FIRE the Lamp, we clear the Stack!
     public boolean fireLamp() {
         if(lampTarget != null) {
             enterRoom(lampTarget);
@@ -255,5 +248,4 @@ public class Player {
         }
         return false;
     }
-
 }
