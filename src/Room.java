@@ -4,24 +4,17 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * Class Room - a room in an adventure game.
- *
- * This class is part of the "World of Zuul" application.
- * "World of Zuul" is a very simple, text based adventure game.
- *
+ * Class Room - a room in the game.
  * A "Room" represents one location in the scenery of the game.  It is
  * connected to other rooms via exits.  For each existing exit, the room
  * stores a reference to the neighboring room.
- *
- * @author  Michael Kolling and David J. Barnes
- * @version 2016.02.29
+ * A room can also store several items and hold a character.
  */
 
 public class Room {
     private String description;
-    private HashMap<String, Room> exits;        // stores exits of this room.
-    private Items items;        // stores items available in this room.
-    //placeholder for the character in this room
+    private HashMap<String, Room> exits;
+    private Items items;
     private Character character;
 
     /**
@@ -63,9 +56,8 @@ public class Room {
     }
 
     /**
-     * Return a long description of this room, in the form:
-     *     You are in the kitchen.
-     *     Exits: north west
+     * Return a long description of this room with info such as current room,
+     * exits, items in the room and character (if there is one).
      */
     public String getLongDescription() {
         String returnString =  "You are " + description + ".\n" + getExitString() + "\nItems in this room: ";
@@ -89,9 +81,9 @@ public class Room {
      */
     private String getExitString() {
         String returnString = "Exits:";
-        Set<String> keys = exits.keySet();
-        for(Iterator<String> iter = keys.iterator(); iter.hasNext(); )
-            returnString += " " + iter.next();
+        for(String key : exits.keySet()) {
+            returnString += " " + key;
+        }
         return returnString;
     }
 
