@@ -1,8 +1,5 @@
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,9 +26,9 @@ public class Items
      * Return an Iterator over the items.
      * @return An Iterator.
      */
-    public Iterator<Item> iterator()
+    public ArrayList<Item> getArrayList()
     {
-        return items.values().iterator();
+        return new ArrayList<>(items.values());
     }
 
     /**
@@ -64,8 +61,7 @@ public class Items
 
     //Use toLowerCase() method to make sure the keys are searched without a capital letter
     //Ergens wordt items.get() aangeroepen met een null parameter
-    public Item get(String name)
-    {
+    public Item get(String name) {
         if(name != null) {
             return items.get(name.toLowerCase());
         }

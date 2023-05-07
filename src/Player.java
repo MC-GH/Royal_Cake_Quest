@@ -1,8 +1,7 @@
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class Player {
     private String name;
@@ -106,6 +105,9 @@ public class Player {
         //Create a HashSet (cannot contain doubles) - loop through the keyset of the Items
         //if(key.equals("egg")) add to HashSet.
         //Check length of HashSet = if 4 then we have all items. (as there can be no doubles)
+        ArrayList<Item> list = items.getArrayList();
+        list.stream().filter()
+
         HashSet<Item> ingredients = new HashSet<>();
         while(it.hasNext()) {
             Item item = it.next();

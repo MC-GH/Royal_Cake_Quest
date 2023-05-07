@@ -431,14 +431,12 @@ public class Game {
         player.cook();
     }
 
-    private void charge()
-    {
+    private void charge() {
         player.chargeLamp();
         System.out.println("Lamp has been charged.");
     }
 
-    private void fire()
-    {
+    private void fire() {
         if(player.fireLamp()) {
             System.out.println("Lamp fired.");
             System.out.println(player.getCurrentRoom().getLongDescription());
@@ -448,6 +446,9 @@ public class Game {
         }
     }
 
+    /**
+     * Main method which creates a new Game object and triggers the play method.
+     */
     public static void main(String[] args) {
         Game game = new Game();
         game.play();
