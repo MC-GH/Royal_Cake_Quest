@@ -102,7 +102,8 @@ public class Player {
 
     /**
      * Store all the needed Ingredient names in an ArrayList
-     *
+     * Fetch all the items carried by the player, and use a Stream to filter through the list
+     * and save the count in a temporary variable.
      */
     public void cook() {
         ArrayList<String> neededIngredients = new ArrayList<>(Arrays.asList("Butter", "Sugar", "Flour", "Egg"));

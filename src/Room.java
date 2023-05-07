@@ -153,7 +153,6 @@ public class Room {
     }
 
     /**
-     *
      * @return a String of the name of the item the Character is requesting from the player.
      */
     public String getItemRequested() {
