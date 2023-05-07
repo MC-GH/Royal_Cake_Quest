@@ -96,7 +96,7 @@ public class Room {
     }
 
     /**
-     * Puts an item into this room.
+     * Puts an item into the Items list of the room.
      * @param item The item put into the room.
      */
     public void addItem(Item item) {
@@ -117,13 +117,14 @@ public class Room {
      * @param name The item to be removed.
      * @return The item if removed, null otherwise.
      */
-    //Hashmap keys are stored in lowercase. If we need to remove an item from the items
-    //collection triggered by talking to the character, no input passes via the parser.
     public Item removeItem(String name) {
         return items.remove(name);
     }
 
-    //Character methods allowing the Player to interact with the Character
+    /**
+     * Places a Character object in the room.
+     * @param c The Character to be placed in the room.
+     */
     public void setCharacter(Character c) {
         this.character = c;
     }
@@ -132,16 +133,19 @@ public class Room {
         return this.character;
     }
 
-    //Character plaatst het Item in de collectie Items van de kamer (String key, Item value)
-    //Return de naam (String) van het item
-    //Character puts his item in the Items collection of the room
+    /**
+     * Places the Item the Character is holding into the Items collection of the room
+     * and clears the character from the room. Can only be called once.
+     * @return the name of the Item retrieved from the Character.
+     */
     public String getCharacterItem() {
-        //The character.getItem() method can only be called once. Once called, the Item the character is holding is set to null
-        Item characterItem = character.getItem();
-        items.put(characterItem.getName(), characterItem);
-        //Clear the character from the room (prisoner escapes)
-        character = null;
-        return characterItem.getName();
+        if(character != null) {
+            Item characterItem = character.getItem();
+            items.put(characterItem.getName(), characterItem);
+            character = null;
+            return characterItem.getName();
+        }
+        return null;
     }
 
     /**
@@ -154,13 +158,15 @@ public class Room {
         return null;
     }
 
+    /**
+     * Triggers the dialogue with the character (if there is one)
+     * @return a String of dialogue from the Character, or another String if there is no Character.
+     */
     public String talk() {
         if(character != null) {
             return character.speak();
         }
-
         return "You mumble a bit to yourself. There is no one else here.";
-
     }
 }
 
