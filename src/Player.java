@@ -1,7 +1,10 @@
+import java.sql.Array;
 import java.util.*;
 
 /**
- *
+ *  Player Class which holds details of the player of the game, such as the name,
+ *  Current room, a stack of the previously visited rooms, an inventory with items,
+ *  the max weight, the max moves, current moves and lamp target room.
  */
 
 public class Player {
@@ -25,6 +28,10 @@ public class Player {
         this.currentRoom = room;
     }
 
+    /**
+     * Enter the room and push the currrent room to the Stack, increase moves by 1
+     * @param room The room to enter.
+     */
     public void enterRoom(Room room) {
         moves++;
         trail.push(getCurrentRoom());
@@ -35,7 +42,9 @@ public class Player {
         return currentRoom;
     }
 
-
+    /**
+     * Go back to the previous room by using the pop() method of the Stack. Increase moves by 1.
+     */
     public void goBack() {
         if(trail.empty()) {
             System.out.println("You have nowhere to go back to!");
@@ -56,8 +65,7 @@ public class Player {
      * @parem itemName The item to be picked up.
      * @return true if the item can be picked up, false otherwise.
      */
-    private boolean canPickItem(String itemName)
-    {
+    private boolean canPickItem(String itemName) {
         boolean canPick = true;
         Item item = currentRoom.getItem(itemName);
         if(item == null) {
@@ -74,12 +82,12 @@ public class Player {
     }
 
     /**
-     * Tries to pick up the item from the current room.
+     * Tries to pick up the item from the current room. If it concerns a covered Item, it reveals the
+     * actual item that was covered.
      * @param itemName The item to be picked up.
      * @return If successful this method will return the item that was picked up.
      */
-    public Item pickUpItem(String itemName)
-    {
+    public Item pickUpItem(String itemName) {
         if(canPickItem(itemName)) {
             //Return the original item to be removed from the room
             Item item = currentRoom.removeItem(itemName);
@@ -125,7 +133,8 @@ public class Player {
     }
 
     /**
-     * Tries to drop an item into the current room.
+     * Tries to drop an item into the current room. If it concerns a previously covered item,
+     * it is put back in it's original state (for example, covered in a box)
      * @param itemName The item to be dropped.
      *
      * @return If successful this method will return the item that was dropped.
@@ -150,15 +159,16 @@ public class Player {
 
     /**
      * Eats the item if possible.
-     * Only cookies can be eaten.
+     * Some items can be eaten, and grant a certain effect on the player.
      * @param itemName The item to be eaten.
      */
     public Item eat(String itemName) {
-
-        if(itemName.equals("cookie") || itemName.equals("mushrooms") ||itemName.equals("chocolate")) {
+        //Store edible items
+        ArrayList<String> edibleItems = new ArrayList<>(Arrays.asList("cookie", "mushrooms", "chocolate"));
+        if(edibleItems.contains(itemName)) {
             //Check if we have one of the items in our inventory. Remove from player inventory if we do.
             Item item = items.remove(itemName);
-//          //Then check if one of the items is in the room. Remove from room if there is.
+            //Then check if one of the items is in the room. Remove from room if there is.
             if(item == null) {
                 item = currentRoom.removeItem(itemName);
             }
@@ -171,9 +181,11 @@ public class Player {
                     case "Mushrooms":
                         maxMoves -= 5;
                         maxWeight -= 1;
+                        System.out.println("You feel a bit dizzy.");
                         return item;
                     case "Chocolate":
                         maxMoves += 10;
+                        System.out.println("You feel energized.");
                         return item;
                 }
             }
@@ -234,8 +246,7 @@ public class Player {
      * Fires the beamer
      */
     //Implement a method: once we FIRE the Lamp, we clear the Stack!
-    public boolean fireLamp()
-    {
+    public boolean fireLamp() {
         if(lampTarget != null) {
             enterRoom(lampTarget);
             //Once the fire method has been used => we clear the Stack.
