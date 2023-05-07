@@ -1,33 +1,20 @@
-import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
- * A list of items.
- *
- * @author  Poul Henriksen
- * @version 2016.02.29
+ * A class to be used to store multiple Items (in a room or a player inventory)
  */
-public class Items
-{
-    // A map of item names to items.
+public class Items {
     private HashMap<String, Item> items;
 
-    /**
-     * Create a new item list.
-     */
     public Items()
     {
         items = new HashMap<>();
     }
 
     /**
-     * Return an Iterator over the items.
-     * @return An Iterator.
+     * @return An ArrayList of the Item objects in the collection.
      */
-    public ArrayList<Item> getArrayList()
-    {
+    public ArrayList<Item> getArrayList() {
         return new ArrayList<>(items.values());
     }
 
@@ -36,8 +23,7 @@ public class Items
      * @param itemName The name of the item to be removed.
      */
     //Tolowercase to make sure we are always searching for the lowercase key
-    public Item remove(String itemName)
-    {
+    public Item remove(String itemName) {
         return items.remove(itemName.toLowerCase());
     }
 
@@ -60,7 +46,6 @@ public class Items
      */
 
     //Use toLowerCase() method to make sure the keys are searched without a capital letter
-    //Ergens wordt items.get() aangeroepen met een null parameter
     public Item get(String name) {
         if(name != null) {
             return items.get(name.toLowerCase());
@@ -69,16 +54,15 @@ public class Items
     }
 
     /**
-     * Return a string listing the descriptions of the
+     * Return a string listing the descriptions and weight of the
      * items in the list.
+     * @return A String with the descriptions of the Items.
      */
     public String getLongDescription() {
         String returnString = "";
-
         for(Item item: items.values()) {
             returnString += "\n" + item.getName() + " (" + item.getDescription() + ") with weight of " + item.getWeight() + " kg";
         }
-
         return returnString;
     }
 
@@ -86,8 +70,7 @@ public class Items
      * Return the total weight of all items in the list.
      * @return The total weight
      */
-    public double getTotalWeight()
-    {
+    public double getTotalWeight() {
         double weight = 0;
         for(Item item: items.values()) {
             weight += item.getWeight();

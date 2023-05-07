@@ -393,10 +393,9 @@ public class Game {
     private void talk() {
         String itemToFind = player.getCurrentRoom().getItemRequested();
         if(player.getItem(itemToFind) != null && player.getCurrentRoom().getCharacter().hasBeenVisited()) {
-            //By calling this method: the CharacterItem is put in the Items collection of the room.
-            //Store the key (String) of the item returned by the Character
+            //Below method call returns the String of the Character Item, and also stores the Item into the
+            //items collection of the room.
             String rewardItem = player.getCurrentRoom().getCharacterItem();
-            //Use the pickup method to remove the item from the room and place the item in the inventory of the player
             player.pickUpItem(rewardItem);
         } else {
             System.out.println(player.getCurrentRoom().talk());
