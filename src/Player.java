@@ -1,7 +1,8 @@
-import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+
+/**
+ *
+ */
 
 public class Player {
     private String name;
@@ -129,8 +130,7 @@ public class Player {
      *
      * @return If successful this method will return the item that was dropped.
      */
-    public Item dropItem(String itemName)
-    {
+    public Item dropItem(String itemName) {
         Item item = items.remove(itemName);
         //Item exists in inventory
         if(item != null) {

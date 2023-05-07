@@ -1,26 +1,18 @@
 import java.util.HashMap;
 
 /**
- * This class is part of the "World of Zuul" application.
- * "World of Zuul" is a very simple, text based adventure game.
- *
- * This class holds an enumeration of all command words known to the game.
- * It is used to recognise commands as they are typed in.
- *
- * @author  Michael Kölling and David J. Barnes
- * @version 2011.07.31
+ * This class holds a HashMap of the valid CommandWords that can be used.
+ * Keys (Strings) and values (CommandWord objects) are stored.
  */
 
-public class CommandWords
-{
+public class CommandWords {
     private HashMap<String, CommandWord> validCommands;
 
     /**
-     * Constructor - initialise the command words.
+     * Constructor - fill the HashMap with CommandWords. (key and value)
      */
-    public CommandWords()
-    {
-        validCommands = new HashMap<String, CommandWord>();
+    public CommandWords() {
+        validCommands = new HashMap<>();
         for(CommandWord command : CommandWord.values()) {
             if(command != CommandWord.UNKNOWN) {
                 validCommands.put(command.toString(), command);
@@ -30,15 +22,14 @@ public class CommandWords
 
     /**
      * Check whether a given String is a valid command word.
-     * @return true if a given string is a valid command,
+     * @return true if a given string is stored as valid key in the HashMap.
      * false if it isn't.
      */
     public boolean isCommand(String aString) {
         return validCommands.containsKey(aString);
     }
 
-    public void showAll()
-    {
+    public void showAll() {
         validCommands.keySet().forEach(command -> System.out.print(command + " "));
         System.out.println();
     }
@@ -47,10 +38,9 @@ public class CommandWords
      * Find the CommandWord associated with a command word.
      * @param commandWord The word to look up (as a string).
      * @return The CommandWord correspondng to commandWord, or UNKNOWN
-     *         if it is not a valid command word.
+     * if it is not a valid command word.
      */
-    public CommandWord getCommandWord(String commandWord)
-    {
+    public CommandWord getCommandWord(String commandWord) {
         CommandWord command = validCommands.get(commandWord);
         if(command != null) {
             return command;

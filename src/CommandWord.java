@@ -1,3 +1,6 @@
+/**
+ * Enumeration of valid CommandWords
+ */
 public enum CommandWord {
     GO("go"),
     LOOK("look"),
