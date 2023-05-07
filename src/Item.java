@@ -1,3 +1,6 @@
+/**
+ * Class which stores several attributes related to an Item.
+ */
 public class Item {
     private String name;
     private String description;
@@ -13,6 +16,10 @@ public class Item {
         this.isCovered = false;
     }
 
+    /**
+     * If we have an Item covering another Item, we can set the covered item with this method.
+     * @param item The item that is covered by another item. (not visible)
+     */
     public void setCoveredItem(Item item) {
         this.coveredItem = item;
         this.isCovered = true;
@@ -32,11 +39,6 @@ public class Item {
 
     public boolean isCovered() {
         return this.isCovered;
-    }
-
-    public Item uncover() {
-        this.isCovered = false;
-        return coveredItem;
     }
 
     public Item getCoveredItem() {

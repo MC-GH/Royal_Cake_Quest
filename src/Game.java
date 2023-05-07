@@ -431,11 +431,17 @@ public class Game {
         player.cook();
     }
 
+    /**
+     * Stores the current location in the lamp.
+     */
     private void charge() {
         player.chargeLamp();
         System.out.println("Lamp has been charged.");
     }
 
+    /**
+     * Travel to the location stored in the lamp, if there is one.
+     */
     private void fire() {
         if(player.fireLamp()) {
             System.out.println("Lamp fired.");
