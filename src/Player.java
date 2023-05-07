@@ -99,24 +99,21 @@ public class Player {
             return null;
         }
     }
-    //Voorbeeldmethode om in eigen spel te gebruiken
-    public void cook() {
-        Iterator<Item> it = items.iterator();
-        //Create a HashSet (cannot contain doubles) - loop through the keyset of the Items
-        //if(key.equals("egg")) add to HashSet.
-        //Check length of HashSet = if 4 then we have all items. (as there can be no doubles)
-        ArrayList<Item> list = items.getArrayList();
-        list.stream().filter()
 
-        HashSet<Item> ingredients = new HashSet<>();
-        while(it.hasNext()) {
-            Item item = it.next();
-            if(item.getName().equals("Butter") || item.getName().equals("Sugar")|| item.getName().equals("Flour") || item.getName().equals("Egg") ) {
-                //Add the item to our cooking ingredients Hashset, but do not remove from items collection
-                ingredients.add(items.get(item.getName()));
-            }
-        }
-        if(ingredients.size() == 4) {
+    /**
+     * Store all the needed Ingredient names in an ArrayList
+     *
+     */
+    public void cook() {
+        ArrayList<String> neededIngredients = new ArrayList<>(Arrays.asList("Butter", "Sugar", "Flour", "Egg"));
+        ArrayList<Item> list = items.getArrayList();
+        long itemsFound= list.stream()
+                .filter(item-> neededIngredients.contains(item.getName()))
+                .map(item -> item.getName())
+                .distinct()
+                .count();
+
+        if(itemsFound == 4) {
             Item reward = new Item("cake", "a delicious royal cake", 2.0);
             items.put(reward.getName(), reward);
         } else {
