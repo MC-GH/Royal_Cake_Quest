@@ -30,7 +30,7 @@ public class CommandWords {
     }
 
     public void showAll() {
-        validCommands.keySet().forEach(command -> System.out.print(command + " "));
+        validCommands.keySet().forEach(command -> System.out.print(" * " + command));
         System.out.println();
     }
 
